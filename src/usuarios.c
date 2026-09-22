@@ -67,3 +67,29 @@ int encontrarUsuarioPorMatricula(
 
     return -1;
 }
+
+void buscarUsuario(const Usuario usuarios[], int total) {
+    char matricula[MAX_MATRICULA];
+    int indice;
+
+    printf("\n=== BUSCA DE USUARIO ===\n");
+
+    printf("Digite a matricula: ");
+    fgets(matricula, MAX_MATRICULA, stdin);
+    matricula[strcspn(matricula, "\n")] = '\0';
+
+    indice = encontrarUsuarioPorMatricula(
+        usuarios,
+        total,
+        matricula
+    );
+
+    if (indice == -1) {
+        printf("Usuario nao encontrado.\n");
+        return;
+    }
+
+    printf("\nMatricula: %s\n", usuarios[indice].matricula);
+    printf("Nome: %s\n", usuarios[indice].nome);
+    printf("Curso: %s\n", usuarios[indice].curso);
+}

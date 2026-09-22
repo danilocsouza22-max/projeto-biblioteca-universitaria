@@ -15,5 +15,6 @@ typedef struct {
 void cadastrarUsuario(Usuario usuarios[], int *total);
 void listarUsuarios(const Usuario usuarios[], int total);
 int encontrarUsuarioPorMatricula(const Usuario usuarios[], int total, const char matricula[]);
+void buscarUsuario(const Usuario usuarios[], int total);
 
 #endif

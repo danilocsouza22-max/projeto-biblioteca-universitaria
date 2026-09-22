@@ -16,6 +16,8 @@ int main(void) {
         printf("2 - Listar livros\n");
         printf("3 - Cadastrar usuario\n");
         printf("4 - Listar usuarios\n");
+        printf("5 - Buscar livro\n");
+        printf("6 - Buscar usuario\n");
         printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
@@ -36,6 +38,14 @@ int main(void) {
 
             case 4:
                 listarUsuarios(usuarios, totalUsuarios);
+                break;
+
+            case 5:
+                buscarLivro(livros, totalLivros);
+                break;    
+
+            case 6:
+                buscarUsuario(usuarios, totalUsuarios);
                 break;
 
             case 0:
