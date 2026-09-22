@@ -27,6 +27,11 @@ void realizarEmprestimo(
     fgets(codigoLivro, MAX_CODIGO, stdin);
     codigoLivro[strcspn(codigoLivro, "\n")] = '\0';
 
+    if (strlen(codigoLivro) == 0) {
+        printf("Erro: o codigo do livro nao pode estar vazio.\n");
+        return;
+    }
+
     indiceLivro = encontrarLivroPorCodigo(
         livros,
         totalLivros,
@@ -46,6 +51,11 @@ void realizarEmprestimo(
     printf("Matricula do usuario: ");
     fgets(matriculaUsuario, MAX_MATRICULA, stdin);
     matriculaUsuario[strcspn(matriculaUsuario, "\n")] = '\0';
+
+    if (strlen(matriculaUsuario) == 0) {
+        printf("Erro: a matricula do usuario nao pode estar vazia.\n");
+        return;
+    }
 
     indiceUsuario = encontrarUsuarioPorMatricula(
         usuarios,
@@ -95,9 +105,19 @@ void devolverLivro(
     fgets(codigoLivro, MAX_CODIGO, stdin);
     codigoLivro[strcspn(codigoLivro, "\n")] = '\0';
 
+    if (strlen(codigoLivro) == 0) {
+        printf("Erro: o codigo do livro nao pode estar vazio.\n");
+        return;
+    }
+
     printf("Matricula do usuario: ");
     fgets(matriculaUsuario, MAX_MATRICULA, stdin);
     matriculaUsuario[strcspn(matriculaUsuario, "\n")] = '\0';
+
+    if (strlen(matriculaUsuario) == 0) {
+        printf("Erro: a matricula do usuario nao pode estar vazia.\n");
+        return;
+    }
 
     for (i = 0; i < totalEmprestimos; i++) {
         if (emprestimos[i].ativo &&
