@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include "../include/livros.h"
 #include "../include/usuarios.h"
+#include "../include/emprestimos.h"
 
 int main(void) {
     Livro livros[MAX_LIVROS];
     Usuario usuarios[MAX_USUARIOS];
+    Emprestimo emprestimos[MAX_EMPRESTIMOS];
 
     int totalLivros = 0;
     int totalUsuarios = 0;
+    int totalEmprestimos = 0;
     int opcao;
 
     do {
@@ -18,6 +21,9 @@ int main(void) {
         printf("4 - Listar usuarios\n");
         printf("5 - Buscar livro\n");
         printf("6 - Buscar usuario\n");
+        printf("7 - Realizar emprestimo\n");
+        printf("8 - Devolver livro\n");
+        printf("9 - Listar emprestimos\n");
         printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
@@ -47,6 +53,18 @@ int main(void) {
             case 6:
                 buscarUsuario(usuarios, totalUsuarios);
                 break;
+
+            case 7:
+                realizarEmprestimo(livros, totalLivros, usuarios, totalUsuarios, emprestimos, &totalEmprestimos);
+                break;
+
+            case 8:
+                devolverLivro(livros, totalLivros, emprestimos, totalEmprestimos);
+                break;
+
+            case 9:
+                listarEmprestimos(emprestimos, totalEmprestimos);
+                break;    
 
             case 0:
                 printf("\nPrograma encerrado.\n");
