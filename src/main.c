@@ -2,6 +2,7 @@
 #include "../include/livros.h"
 #include "../include/usuarios.h"
 #include "../include/emprestimos.h"
+#include "../include/persistencia.h"
 
 int main(void) {
     Livro livros[MAX_LIVROS];
@@ -12,6 +13,10 @@ int main(void) {
     int totalUsuarios = 0;
     int totalEmprestimos = 0;
     int opcao;
+
+    carregarLivros(livros, &totalLivros);
+    carregarUsuarios(usuarios, &totalUsuarios);
+    carregarEmprestimos(emprestimos, &totalEmprestimos);
 
     do {
         printf("\n=== SISTEMA DE BIBLIOTECA UNIVERSITARIA ===\n");
@@ -67,7 +72,11 @@ int main(void) {
                 break;    
 
             case 0:
-                printf("\nPrograma encerrado.\n");
+            salvarLivros(livros, totalLivros);
+            salvarUsuarios(usuarios, totalUsuarios);
+            salvarEmprestimos(emprestimos, totalEmprestimos);
+
+            printf("\nPrograma encerrado.\n");
                 break;
 
             default:
