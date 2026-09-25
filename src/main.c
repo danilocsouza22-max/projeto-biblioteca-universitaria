@@ -14,6 +14,7 @@ int main(void) {
     int totalEmprestimos = 0;
     int opcao;
 
+    // Carrega os dados armazenados nos arquivos ao iniciar o sistema
     carregarLivros(livros, &totalLivros);
     carregarUsuarios(usuarios, &totalUsuarios);
     carregarEmprestimos(emprestimos, &totalEmprestimos);
@@ -34,6 +35,7 @@ int main(void) {
         scanf("%d", &opcao);
         limparBuffer();
 
+        // Executa a funcionalidade escolhida pelo usuário
         switch (opcao) {
             case 1:
                 cadastrarLivro(livros, &totalLivros);
@@ -72,6 +74,7 @@ int main(void) {
                 break;    
 
             case 0:
+            // Salva os dados antes de encerrar o programa
             salvarLivros(livros, totalLivros);
             salvarUsuarios(usuarios, totalUsuarios);
             salvarEmprestimos(emprestimos, totalEmprestimos);

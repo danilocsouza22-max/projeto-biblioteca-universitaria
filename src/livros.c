@@ -9,6 +9,7 @@ void limparBuffer(void) {
     }
 }
 
+// Procura um livro pelo código informado
 int encontrarLivroPorCodigo(const Livro livros[], int total, const char codigo[]) {
     int i;
 
@@ -24,6 +25,7 @@ int encontrarLivroPorCodigo(const Livro livros[], int total, const char codigo[]
 void cadastrarLivro(Livro livros[], int *total) {
     Livro novoLivro;
 
+    // Verifica se o limite de livros cadastrados foi atingido
     if (*total >= MAX_LIVROS) {
         printf("\nLimite de livros atingido.\n");
         return;
@@ -35,6 +37,7 @@ void cadastrarLivro(Livro livros[], int *total) {
     fgets(novoLivro.codigo, MAX_CODIGO, stdin);
     novoLivro.codigo[strcspn(novoLivro.codigo, "\n")] = '\0';
 
+    // Verifica se já existe um livro com o código informado
     if (encontrarLivroPorCodigo(livros, *total, novoLivro.codigo) != -1) {
         printf("Erro: ja existe um livro com esse codigo.\n");
         return;
@@ -56,11 +59,13 @@ void cadastrarLivro(Livro livros[], int *total) {
     scanf("%d", &novoLivro.quantidade);
     limparBuffer();
 
+    // Verifica se os valores informados são válidos
     if (novoLivro.ano < 0 || novoLivro.quantidade < 0) {
         printf("Erro: ano e quantidade nao podem ser negativos.\n");
         return;
     }
 
+    // Adiciona o novo livro e atualiza o total de livros
     livros[*total] = novoLivro;
     (*total)++;
 
@@ -77,6 +82,7 @@ void listarLivros(const Livro livros[], int total) {
         return;
     }
 
+    // Percorre os livros cadastrados e exibe suas informações
     for (i = 0; i < total; i++) {
         printf("\nCodigo: %s\n", livros[i].codigo);
         printf("Titulo: %s\n", livros[i].titulo);
@@ -103,6 +109,7 @@ void buscarLivro(const Livro livros[], int total) {
     fgets(termo, MAX_TITULO, stdin);
     termo[strcspn(termo, "\n")] = '\0';
 
+    // Percorre os livros e verifica se correspondem ao termo pesquisado
     for (i = 0; i < total; i++) {
         if ((opcao == 1 && strstr(livros[i].titulo, termo) != NULL) ||
             (opcao == 2 && strstr(livros[i].autor, termo) != NULL)) {

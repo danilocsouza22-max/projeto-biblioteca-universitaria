@@ -5,6 +5,7 @@
 void cadastrarUsuario(Usuario usuarios[], int *total) {
     Usuario novoUsuario;
 
+    // Verifica se ainda há espaço para cadastrar novos usuários
     if (*total >= MAX_USUARIOS) {
         printf("\nLimite de usuarios atingido.\n");
         return;
@@ -16,6 +17,7 @@ void cadastrarUsuario(Usuario usuarios[], int *total) {
     fgets(novoUsuario.matricula, MAX_MATRICULA, stdin);
     novoUsuario.matricula[strcspn(novoUsuario.matricula, "\n")] = '\0';
 
+    // Verifica se a matrícula já está cadastrada
     if (encontrarUsuarioPorMatricula(usuarios, *total, novoUsuario.matricula) != -1) {
         printf("Erro: ja existe um usuario com essa matricula.\n");
         return;
@@ -45,6 +47,7 @@ void listarUsuarios(const Usuario usuarios[], int total) {
         return;
     }
 
+    // Percorre os usuários cadastrados e exibe seus dados
     for (i = 0; i < total; i++) {
         printf("\nMatricula: %s\n", usuarios[i].matricula);
         printf("Nome: %s\n", usuarios[i].nome);
@@ -59,6 +62,7 @@ int encontrarUsuarioPorMatricula(
 ) {
     int i;
 
+    // Procura um usuário pela matrícula informada
     for (i = 0; i < total; i++) {
         if (strcmp(usuarios[i].matricula, matricula) == 0) {
             return i;

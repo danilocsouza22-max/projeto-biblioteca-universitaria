@@ -6,6 +6,7 @@ void salvarLivros(const Livro livros[], int totalLivros) {
     FILE *arquivo;
     int i;
 
+    // Abre o arquivo de livros para salvar os dados
     arquivo = fopen("dados/livros.txt", "w");
 
     if (arquivo == NULL) {
@@ -13,6 +14,7 @@ void salvarLivros(const Livro livros[], int totalLivros) {
         return;
     }
 
+    // Percorre os livros e grava seus dados no arquivo
     for (i = 0; i < totalLivros; i++) {
         fprintf(
             arquivo,
@@ -31,6 +33,7 @@ void salvarLivros(const Livro livros[], int totalLivros) {
 void carregarLivros(Livro livros[], int *totalLivros) {
     FILE *arquivo;
 
+    // Abre o arquivo de livros para carregar os dados
     arquivo = fopen("dados/livros.txt", "r");
 
     if (arquivo == NULL) {
@@ -39,6 +42,7 @@ void carregarLivros(Livro livros[], int *totalLivros) {
 
     *totalLivros = 0;
 
+    // Lê os livros armazenados no arquivo
     while (
         *totalLivros < MAX_LIVROS &&
         fscanf(
@@ -61,6 +65,7 @@ void salvarUsuarios(const Usuario usuarios[], int totalUsuarios) {
     FILE *arquivo;
     int i;
 
+    // Abre o arquivo de usuários para salvar os dados
     arquivo = fopen("dados/usuarios.txt", "w");
 
     if (arquivo == NULL) {
@@ -68,6 +73,7 @@ void salvarUsuarios(const Usuario usuarios[], int totalUsuarios) {
         return;
     }
 
+    // Percorre os usuários e grava seus dados no arquivo
     for (i = 0; i < totalUsuarios; i++) {
         fprintf(
             arquivo,
@@ -84,6 +90,7 @@ void salvarUsuarios(const Usuario usuarios[], int totalUsuarios) {
 void carregarUsuarios(Usuario usuarios[], int *totalUsuarios) {
     FILE *arquivo;
 
+    // Abre o arquivo de usuários para carregar os dados
     arquivo = fopen("dados/usuarios.txt", "r");
 
     if (arquivo == NULL) {
@@ -92,6 +99,7 @@ void carregarUsuarios(Usuario usuarios[], int *totalUsuarios) {
 
     *totalUsuarios = 0;
 
+    // Lê os usuários armazenados no arquivo
     while (
         *totalUsuarios < MAX_USUARIOS &&
         fscanf(
@@ -115,6 +123,7 @@ void salvarEmprestimos(
     FILE *arquivo;
     int i;
 
+    // Abre o arquivo de empréstimos para salvar os dados
     arquivo = fopen("dados/emprestimos.txt", "w");
 
     if (arquivo == NULL) {
@@ -122,6 +131,7 @@ void salvarEmprestimos(
         return;
     }
 
+    // Percorre os empréstimos e grava seus dados no arquivo
     for (i = 0; i < totalEmprestimos; i++) {
         fprintf(
             arquivo,
@@ -141,6 +151,7 @@ void carregarEmprestimos(
 ) {
     FILE *arquivo;
 
+    // Abre o arquivo de empréstimos para carregar os dados
     arquivo = fopen("dados/emprestimos.txt", "r");
 
     if (arquivo == NULL) {
@@ -149,6 +160,7 @@ void carregarEmprestimos(
 
     *totalEmprestimos = 0;
 
+    // Lê os empréstimos armazenados no arquivo
     while (
         *totalEmprestimos < MAX_EMPRESTIMOS &&
         fscanf(
