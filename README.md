@@ -1,18 +1,8 @@
 # Sistema de Biblioteca Universitária
 
-## 1. Sobre o projeto
+Este projeto consiste no desenvolvimento de um sistema de gerenciamento de uma biblioteca universitária utilizando a linguagem de programação C. O sistema foi desenvolvido com o objetivo de aplicar conceitos fundamentais vistos nas aulas de Programação Estruturada. O sistema permite o gerenciamento de livros e usuários, além do controle de empréstimos e devoluções. Os dados utilizados pelo sistema são armazenados em arquivos de texto (`.txt`), permitindo que as informações cadastradas permaneçam salvas mesmo após o encerramento do programa.
 
-Este projeto consiste no desenvolvimento de um sistema de gerenciamento de uma biblioteca universitária utilizando a linguagem de programação C.
-
-O sistema foi desenvolvido com o objetivo de aplicar conceitos fundamentais de programação estruturada, estruturas de dados, modularização, manipulação de strings, vetores, funções, estruturas (`struct`), busca sequencial, manipulação de arquivos e tratamento básico de erros.
-
-O sistema permite o gerenciamento de livros e usuários, além do controle de empréstimos e devoluções.
-
-Os dados utilizados pelo sistema são armazenados em arquivos de texto (`.txt`), permitindo que as informações cadastradas permaneçam salvas mesmo após o encerramento do programa.
-
----
-
-## 2. Objetivos
+# 2.Objetivos
 
 O sistema possui como principais objetivos:
 
@@ -31,11 +21,9 @@ O sistema possui como principais objetivos:
 - Separar as funcionalidades do sistema em diferentes módulos;
 - Aplicar boas práticas de organização de código em C.
 
----
+# 3.Funcionalidades
 
-## 3. Funcionalidades
-
-### 3.1 Cadastro de livros
+## 3.1Cadastro de livros
 
 O sistema permite cadastrar livros informando:
 
@@ -47,11 +35,7 @@ O sistema permite cadastrar livros informando:
 
 O código do livro funciona como identificador e não pode ser repetido.
 
-Também existem verificações para impedir o cadastro de valores negativos para ano e quantidade.
-
----
-
-### 3.2 Listagem de livros
+## 3.2 Listagem de livros
 
 A opção de listagem apresenta todos os livros cadastrados e suas respectivas informações.
 
@@ -65,9 +49,7 @@ São exibidos:
 
 Caso não existam livros cadastrados, o sistema informa que o acervo está vazio.
 
----
-
-### 3.3 Cadastro de usuários
+## 3.3 Cadastro de usuários
 
 O sistema permite cadastrar usuários informando:
 
@@ -77,9 +59,7 @@ O sistema permite cadastrar usuários informando:
 
 A matrícula funciona como identificador do usuário e não pode ser repetida.
 
----
-
-### 3.4 Listagem de usuários
+## 3.4 Listagem de usuários
 
 Através dessa funcionalidade é possível visualizar todos os usuários cadastrados, apresentando:
 
@@ -87,32 +67,20 @@ Através dessa funcionalidade é possível visualizar todos os usuários cadastr
 - Nome;
 - Curso.
 
----
+## 3.5 Busca de livros
 
-### 3.5 Busca de livros
-
-O sistema possui busca sequencial de livros.
-
-É possível realizar buscas utilizando:
+O sistema possui busca sequencial de livros, sendo realizanodo, portanto, buscando por:
 
 - Título;
 - Autor.
 
 A busca percorre os livros cadastrados e verifica quais registros correspondem ao termo informado.
 
-A busca por título ou autor também permite localizar ocorrências dentro de textos maiores.
-
----
-
-### 3.6 Busca de usuários
+## 3.6 Busca de usuários
 
 Os usuários podem ser localizados através de sua matrícula.
 
-O sistema percorre os usuários cadastrados até encontrar uma matrícula correspondente.
-
----
-
-### 3.7 Empréstimo de livros
+## 3.7 Empréstimo de livros
 
 Para realizar um empréstimo são informados:
 
@@ -131,9 +99,7 @@ Quando o empréstimo é realizado, a quantidade disponível do livro é reduzida
 
 O empréstimo também recebe um status, que indica se ele está ativo ou se já foi devolvido.
 
----
-
-### 3.8 Devolução de livros
+## 3.8 Devolução de livros
 
 Para realizar uma devolução são informados:
 
@@ -150,9 +116,7 @@ Quando o empréstimo é encontrado:
 
 Caso o empréstimo não seja encontrado, uma mensagem de erro é apresentada.
 
----
-
-### 3.9 Listagem de empréstimos
+## 3.9 Listagem de empréstimos
 
 O sistema permite visualizar todos os empréstimos registrados.
 
@@ -167,15 +131,11 @@ O status pode ser:
 - Ativo;
 - Devolvido.
 
-Dessa forma, os registros de empréstimos anteriores permanecem armazenados mesmo depois que o livro é devolvido.
+Os registros de empréstimos anteriores permanecem armazenados mesmo depois que o livro é devolvido.
 
----
+## 4.0 Tratamento de erros
 
-## 4. Tratamento de erros
-
-O sistema possui verificações para evitar situações inválidas durante sua utilização.
-
-Entre os casos tratados estão:
+O sistema possui verificações para evitar situações inválidas, como nos seguintes casos:
 
 - Código de livro vazio;
 - Matrícula de usuário vazia;
@@ -193,31 +153,16 @@ Entre os casos tratados estão:
 - Limite máximo de empréstimos atingido;
 - Opções inválidas no menu.
 
----
+# 5. Estrutura de Pastas
 
-# 5. Organização do projeto
+## `include/`
 
-O projeto foi dividido em módulos para separar as responsabilidades de cada parte do sistema.
+A pasta `include/` contém os arquivos de cabeçalho (`.h`) do projeto, os quais definem as estruturas de dados das funções utilizadas pelos diferentes módulos do sistema. A separação dos cabeçalhos contribui para a organização do código.
 
-```text
-projeto-biblioteca-universitaria/
-│
-├── include/
-│   ├── livros.h
-│   ├── usuarios.h
-│   ├── emprestimos.h
-│   └── persistencia.h
-│
-├── src/
-│   ├── main.c
-│   ├── livros.c
-│   ├── usuarios.c
-│   ├── emprestimos.c
-│   └── persistencia.c
-│
-├── dados/
-│   ├── livros.txt
-│   ├── usuarios.txt
-│   └── emprestimos.txt
-│
-└── README.md
+## `src/`
+
+A pasta `src/` contém os arquivos de implementação (`.c`) do projeto. Nela estão as funções responsáveis pelo funcionamento do sistema, incluindo o cadastro e a busca de livros e usuários, o controle de empréstimos e devoluções, a persistência dos dados e o arquivo principal responsável pela execução e menu do programa.
+
+## `dados/`
+
+A pasta `dados/` contém os arquivos de texto utilizados para armazenar os dados do sistema. Os arquivos `livros.txt`, `usuarios.txt` e `emprestimos.txt` permitem manter os registros cadastrados mesmo após o encerramento do programa, sendo utilizados pelas funções de persistência para salvar e carregar as informações.
