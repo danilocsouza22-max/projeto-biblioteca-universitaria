@@ -19,8 +19,9 @@ void realizarEmprestimo(
     int totalLivros,
     Usuario usuarios[],
     int totalUsuarios,
-    Emprestimo emprestimos[],
-    int *totalEmprestimos
+    Emprestimo **emprestimos,
+    int *totalEmprestimos,
+    int *capacidade
 );
 
 // Registra a devolução de um livro e atualiza a quantidade disponível
@@ -36,5 +37,6 @@ void listarEmprestimos(
     const Emprestimo emprestimos[],
     int totalEmprestimos
 );
-
+// Aumenta a capacidade de armazenamento dos emprestimos
+int expandirEmprestimos(Emprestimo **emprestimos, int *capacidade);
 #endif

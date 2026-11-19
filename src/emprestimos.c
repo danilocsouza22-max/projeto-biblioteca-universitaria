@@ -1,26 +1,61 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <stdint.h>
 #include <string.h>
 #include "../include/emprestimos.h"
+
+int expandirEmprestimos(Emprestimo **emprestimos, int *capacidade) {
+    int novaCapacidade;
+    Emprestimo *temporario;
+
+    // Define a capacidade inicial ou dobra a capacidade atual
+    if (*capacidade == 0) {
+        novaCapacidade = 10;
+    } else {
+        if (*capacidade > INT_MAX / 2) {
+            return 0;
+        }
+        novaCapacidade = (*capacidade) * 2;
+    }
+
+    // Verifica se a quantidade de memoria pode ser alocada
+    if ((size_t)novaCapacidade > SIZE_MAX / sizeof(Emprestimo)) {
+        return 0;
+    }
+
+    // Tenta aumentar o espaco reservado na memoria
+    temporario = realloc(
+        *emprestimos,
+        (size_t)novaCapacidade * sizeof(Emprestimo)
+    );
+
+    if (temporario == NULL) {
+        printf("Erro ao alocar memoria para emprestimos.\n");
+        return 0;
+    }
+
+    // Atualiza o ponteiro e a capacidade disponivel
+    *emprestimos = temporario;
+    *capacidade = novaCapacidade;
+
+    return 1;
+}
 
 void realizarEmprestimo(
     Livro livros[],
     int totalLivros,
     Usuario usuarios[],
     int totalUsuarios,
-    Emprestimo emprestimos[],
-    int *totalEmprestimos
+    Emprestimo **emprestimos,
+    int *totalEmprestimos,
+    int *capacidade
 ) {
     char codigoLivro[MAX_CODIGO];
-    char matriculaUsuario[MAX_MATRICULA];
-    int indiceLivro;
-    int indiceUsuario;
-    int i;
-
-    // Verifica se ainda há espaço para registrar novos empréstimos
-    if (*totalEmprestimos >= MAX_EMPRESTIMOS) {
-        printf("\nLimite de emprestimos atingido.\n");
-        return;
-    }
+char matriculaUsuario[MAX_MATRICULA];
+int indiceLivro;
+int indiceUsuario;
+int i;
 
     printf("\n=== REALIZAR EMPRESTIMO ===\n");
 
@@ -76,19 +111,27 @@ void realizarEmprestimo(
 
     // Verifica se o usuário já possui este livro emprestado
     for (i = 0; i < *totalEmprestimos; i++) {
-        if (emprestimos[i].ativo &&
-            strcmp(emprestimos[i].codigoLivro, codigoLivro) == 0 &&
-            strcmp(emprestimos[i].matriculaUsuario, matriculaUsuario) == 0) {
+       if ((*emprestimos)[i].ativo &&
+    strcmp((*emprestimos)[i].codigoLivro, codigoLivro) == 0 &&
+    strcmp((*emprestimos)[i].matriculaUsuario, matriculaUsuario) == 0) {
 
             printf("Erro: este usuario ja possui este livro emprestado.\n");
             return;
         }
     }
 
-    // Registra o novo empréstimo e marca seu status como ativo
-    strcpy(emprestimos[*totalEmprestimos].codigoLivro, codigoLivro);
-    strcpy(emprestimos[*totalEmprestimos].matriculaUsuario, matriculaUsuario);
-    emprestimos[*totalEmprestimos].ativo = 1;
+    // Aumenta a capacidade quando nao houver espaco disponivel
+if (*totalEmprestimos >= *capacidade) {
+    if (!expandirEmprestimos(emprestimos, capacidade)) {
+        printf("Erro ao expandir o armazenamento de emprestimos.\n");
+        return;
+    }
+}
+
+// Registra o novo emprestimo
+strcpy((*emprestimos)[*totalEmprestimos].codigoLivro, codigoLivro);
+strcpy((*emprestimos)[*totalEmprestimos].matriculaUsuario, matriculaUsuario);
+(*emprestimos)[*totalEmprestimos].ativo = 1;
 
     // Atualiza a quantidade disponível do livro e o total de empréstimos
     livros[indiceLivro].quantidade--;
