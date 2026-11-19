@@ -15,10 +15,10 @@ typedef struct {
     int quantidade;
 } Livro;
 
-void cadastrarLivro(Livro livros[], int *total);        // Cadastra um novo livro
-void listarLivros(const Livro livros[], int total);     // Exibe os livros cadastrados
-void buscarLivro(const Livro livros[], int total);      // Busca os livros por título ou autor
-int encontrarLivroPorCodigo(const Livro livros[], int total, const char codigo[]); // Procura um livro pelo código
+void cadastrarLivro(Livro livros[], int *total);
+void listarLivros(const Livro livros[], int total);
+void buscarLivro(const Livro livros[], int total);
+int encontrarLivroPorCodigo(const Livro livros[], int total, const char codigo[]); 
 void limparBuffer(void);
 
 #endif
