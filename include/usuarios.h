@@ -13,9 +13,11 @@ typedef struct {
     char curso[MAX_CURSO];
 } Usuario;
 
-void cadastrarUsuario(Usuario usuarios[], int *total);
+void cadastrarUsuario(Usuario **usuarios, int *total, int *capacidade);
 void listarUsuarios(const Usuario usuarios[], int total);
 int encontrarUsuarioPorMatricula(const Usuario usuarios[], int total, const char matricula[]);
 void buscarUsuario(const Usuario usuarios[], int total);
 
+// Aumenta a capacidade de armazenamento dos usuarios
+int expandirUsuarios(Usuario **usuarios, int *capacidade);
 #endif

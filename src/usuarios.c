@@ -1,15 +1,55 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <stdint.h>
 #include <string.h>
 #include "../include/usuarios.h"
 
-void cadastrarUsuario(Usuario usuarios[], int *total) {
+int expandirUsuarios(Usuario **usuarios, int *capacidade) {
+    int novaCapacidade;
+    Usuario *temporario;
+
+    // Define a capacidade inicial ou dobra a capacidade atual
+    if (*capacidade == 0) {
+        novaCapacidade = 10;
+    } else {
+        if (*capacidade > INT_MAX / 2) {
+            return 0;
+        }
+        novaCapacidade = (*capacidade) * 2;
+    }
+
+    // Verifica se a quantidade de memoria pode ser alocada
+    if ((size_t)novaCapacidade > SIZE_MAX / sizeof(Usuario)) {
+        return 0;
+    }
+
+    // Tenta aumentar o espaco reservado na memoria
+    temporario = realloc(*usuarios,
+                         (size_t)novaCapacidade * sizeof(Usuario));
+
+    if (temporario == NULL) {
+        printf("Erro ao alocar memoria para usuarios.\n");
+        return 0;
+    }
+
+    // Atualiza o ponteiro e a capacidade disponivel
+    *usuarios = temporario;
+    *capacidade = novaCapacidade;
+
+    return 1;
+}
+
+void cadastrarUsuario(Usuario **usuarios, int *total, int *capacidade) {
     Usuario novoUsuario;
 
-    // Verifica se ainda há espaço para cadastrar novos usuários
-    if (*total >= MAX_USUARIOS) {
-        printf("\nLimite de usuarios atingido.\n");
+    // Aumenta a capacidade quando nao houver espaco disponivel
+if (*total >= *capacidade) {
+    if (!expandirUsuarios(usuarios, capacidade)) {
+        printf("Erro ao expandir o armazenamento de usuarios.\n");
         return;
     }
+}
 
     printf("\n=== CADASTRO DE USUARIO ===\n");
 
@@ -18,7 +58,7 @@ void cadastrarUsuario(Usuario usuarios[], int *total) {
     novoUsuario.matricula[strcspn(novoUsuario.matricula, "\n")] = '\0';
 
     // Verifica se a matrícula já está cadastrada
-    if (encontrarUsuarioPorMatricula(usuarios, *total, novoUsuario.matricula) != -1) {
+    if (encontrarUsuarioPorMatricula(*usuarios, *total, novoUsuario.matricula) != -1) {
         printf("Erro: ja existe um usuario com essa matricula.\n");
         return;
     }
@@ -31,7 +71,7 @@ void cadastrarUsuario(Usuario usuarios[], int *total) {
     fgets(novoUsuario.curso, MAX_CURSO, stdin);
     novoUsuario.curso[strcspn(novoUsuario.curso, "\n")] = '\0';
 
-    usuarios[*total] = novoUsuario;
+    (*usuarios)[*total] = novoUsuario;
     (*total)++;
 
     printf("Usuario cadastrado com sucesso!\n");
