@@ -1,0 +1,6 @@
+# Executaveis gerados pela compilacao
+*.exe
+
+# Arquivos temporarios
+*.o
+*.obj
