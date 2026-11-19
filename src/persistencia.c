@@ -30,8 +30,10 @@ void salvarLivros(const Livro livros[], int totalLivros) {
     fclose(arquivo);
 }
 
-void carregarLivros(Livro livros[], int *totalLivros) {
+
+void carregarLivros(Livro **livros, int *totalLivros, int *capacidade) {
     FILE *arquivo;
+    Livro livroTemporario;
 
     // Abre o arquivo de livros para carregar os dados
     arquivo = fopen("dados/livros.txt", "r");
@@ -42,19 +44,27 @@ void carregarLivros(Livro livros[], int *totalLivros) {
 
     *totalLivros = 0;
 
-    // Lê os livros armazenados no arquivo
-    while (
-        *totalLivros < MAX_LIVROS &&
-        fscanf(
-            arquivo,
-            "%19[^|]|%119[^|]|%99[^|]|%d|%d\n",
-            livros[*totalLivros].codigo,
-            livros[*totalLivros].titulo,
-            livros[*totalLivros].autor,
-            &livros[*totalLivros].ano,
-            &livros[*totalLivros].quantidade
-        ) == 5
-    ) {
+    // Le os livros armazenados no arquivo
+    while (fscanf(
+        arquivo,
+        " %19[^|]|%119[^|]|%99[^|]|%d|%d",
+        livroTemporario.codigo,
+        livroTemporario.titulo,
+        livroTemporario.autor,
+        &livroTemporario.ano,
+        &livroTemporario.quantidade
+    ) == 5) {
+
+        // Aumenta a memoria quando necessario
+        if (*totalLivros >= *capacidade) {
+            if (!expandirLivros(livros, capacidade)) {
+                printf("Erro ao carregar livros: memoria insuficiente.\n");
+                break;
+            }
+        }
+
+        // Armazena o livro carregado
+        (*livros)[*totalLivros] = livroTemporario;
         (*totalLivros)++;
     }
 
@@ -87,10 +97,11 @@ void salvarUsuarios(const Usuario usuarios[], int totalUsuarios) {
     fclose(arquivo);
 }
 
-void carregarUsuarios(Usuario usuarios[], int *totalUsuarios) {
+void carregarUsuarios(Usuario **usuarios, int *totalUsuarios, int *capacidade) {
     FILE *arquivo;
+    Usuario usuarioTemporario;
 
-    // Abre o arquivo de usuários para carregar os dados
+    // Abre o arquivo de usuarios para carregar os dados
     arquivo = fopen("dados/usuarios.txt", "r");
 
     if (arquivo == NULL) {
@@ -99,17 +110,25 @@ void carregarUsuarios(Usuario usuarios[], int *totalUsuarios) {
 
     *totalUsuarios = 0;
 
-    // Lê os usuários armazenados no arquivo
-    while (
-        *totalUsuarios < MAX_USUARIOS &&
-        fscanf(
-            arquivo,
-            "%19[^|]|%99[^|]|%99[^\n]\n",
-            usuarios[*totalUsuarios].matricula,
-            usuarios[*totalUsuarios].nome,
-            usuarios[*totalUsuarios].curso
-        ) == 3
-    ) {
+    // Le os usuarios armazenados no arquivo
+    while (fscanf(
+        arquivo,
+        " %19[^|]|%99[^|]|%99[^\n]",
+        usuarioTemporario.matricula,
+        usuarioTemporario.nome,
+        usuarioTemporario.curso
+    ) == 3) {
+
+        // Aumenta a memoria quando necessario
+        if (*totalUsuarios >= *capacidade) {
+            if (!expandirUsuarios(usuarios, capacidade)) {
+                printf("Erro ao carregar usuarios: memoria insuficiente.\n");
+                break;
+            }
+        }
+
+        // Armazena o usuario carregado
+        (*usuarios)[*totalUsuarios] = usuarioTemporario;
         (*totalUsuarios)++;
     }
 
@@ -145,13 +164,16 @@ void salvarEmprestimos(
     fclose(arquivo);
 }
 
+
 void carregarEmprestimos(
-    Emprestimo emprestimos[],
-    int *totalEmprestimos
+    Emprestimo **emprestimos,
+    int *totalEmprestimos,
+    int *capacidade
 ) {
     FILE *arquivo;
+    Emprestimo emprestimoTemporario;
 
-    // Abre o arquivo de empréstimos para carregar os dados
+    // Abre o arquivo de emprestimos para carregar os dados
     arquivo = fopen("dados/emprestimos.txt", "r");
 
     if (arquivo == NULL) {
@@ -160,17 +182,25 @@ void carregarEmprestimos(
 
     *totalEmprestimos = 0;
 
-    // Lê os empréstimos armazenados no arquivo
-    while (
-        *totalEmprestimos < MAX_EMPRESTIMOS &&
-        fscanf(
-            arquivo,
-            "%19[^|]|%19[^|]|%d\n",
-            emprestimos[*totalEmprestimos].codigoLivro,
-            emprestimos[*totalEmprestimos].matriculaUsuario,
-            &emprestimos[*totalEmprestimos].ativo
-        ) == 3
-    ) {
+    // Le os emprestimos armazenados no arquivo
+    while (fscanf(
+        arquivo,
+        " %19[^|]|%19[^|]|%d",
+        emprestimoTemporario.codigoLivro,
+        emprestimoTemporario.matriculaUsuario,
+        &emprestimoTemporario.ativo
+    ) == 3) {
+
+        // Aumenta a memoria quando necessario
+        if (*totalEmprestimos >= *capacidade) {
+            if (!expandirEmprestimos(emprestimos, capacidade)) {
+                printf("Erro ao carregar emprestimos: memoria insuficiente.\n");
+                break;
+            }
+        }
+
+        // Armazena o emprestimo carregado
+        (*emprestimos)[*totalEmprestimos] = emprestimoTemporario;
         (*totalEmprestimos)++;
     }
 
