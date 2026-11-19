@@ -1,7 +1,43 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "../include/livros.h"
+#include <limits.h>
 
+// Aumenta a capacidade de armazenamento dos livros
+int expandirLivros(Livro **livros, int *capacidade) {
+    int novaCapacidade;
+    Livro *temporario;
+
+    // Define a capacidade inicial ou dobra a capacidade atual
+    if (*capacidade == 0) {
+        novaCapacidade = 10;
+    } else {
+        if (*capacidade > INT_MAX / 2) {
+            return 0;
+        }
+        novaCapacidade = (*capacidade) * 2;
+    }
+
+    // Verifica se a quantidade de memoria pode ser alocada
+    if ((size_t)novaCapacidade > (size_t)-1 / sizeof(Livro)) {
+        return 0;
+    }
+
+    // Tenta aumentar o espaco reservado na memoria
+    temporario = realloc(*livros, novaCapacidade * sizeof(Livro));
+
+    if (temporario == NULL) {
+        printf("Erro: nao foi possivel alocar memoria para os livros.\n");
+        return 0;
+    }
+
+    // Atualiza o ponteiro e a capacidade disponivel
+    *livros = temporario;
+    *capacidade = novaCapacidade;
+
+    return 1;
+}
 void limparBuffer(void) {
     int c;
 
@@ -22,15 +58,16 @@ int encontrarLivroPorCodigo(const Livro livros[], int total, const char codigo[]
     return -1;
 }
 
-void cadastrarLivro(Livro livros[], int *total) {
+void cadastrarLivro(Livro **livros, int *total, int *capacidade) {
     Livro novoLivro;
 
-    // Verifica se o limite de livros cadastrados foi atingido
-    if (*total >= MAX_LIVROS) {
-        printf("\nLimite de livros atingido.\n");
+   // Aumenta a memoria quando nao houver espaco disponivel
+if (*total >= *capacidade) {
+    if (!expandirLivros(livros, capacidade)) {
+        printf("Erro ao expandir o armazenamento de livros.\n");
         return;
     }
-
+}
     printf("\n=== CADASTRO DE LIVRO ===\n");
 
     printf("Codigo: ");
@@ -38,7 +75,7 @@ void cadastrarLivro(Livro livros[], int *total) {
     novoLivro.codigo[strcspn(novoLivro.codigo, "\n")] = '\0';
 
     // Verifica se já existe um livro com o código informado
-    if (encontrarLivroPorCodigo(livros, *total, novoLivro.codigo) != -1) {
+   if (encontrarLivroPorCodigo(*livros, *total, novoLivro.codigo) != -1) {
         printf("Erro: ja existe um livro com esse codigo.\n");
         return;
     }
@@ -66,7 +103,7 @@ void cadastrarLivro(Livro livros[], int *total) {
     }
 
     // Adiciona o novo livro e atualiza o total de livros
-    livros[*total] = novoLivro;
+    (*livros)[*total] = novoLivro;
     (*total)++;
 
     printf("Livro cadastrado com sucesso!\n");

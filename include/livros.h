@@ -15,10 +15,11 @@ typedef struct {
     int quantidade;
 } Livro;
 
-void cadastrarLivro(Livro livros[], int *total);
+void cadastrarLivro(Livro **livros, int *total, int *capacidade);
 void listarLivros(const Livro livros[], int total);
 void buscarLivro(const Livro livros[], int total);
 int encontrarLivroPorCodigo(const Livro livros[], int total, const char codigo[]); 
 void limparBuffer(void);
-
+// Aumenta a capacidade de armazenamento dos livros
+int expandirLivros(Livro **livros, int *capacidade);
 #endif
