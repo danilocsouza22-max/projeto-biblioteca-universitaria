@@ -30,4 +30,10 @@ void ordenarLivrosBubbleSort(Livro livros[], int total);
 // Ordena os livros por ano de publicacao usando Selection Sort
 void ordenarLivrosSelectionSort(Livro livros[], int total);
 
+// Busca um livro pelo codigo usando busca binaria
+int buscarLivroBinaria(const Livro livros[], int total, const char codigo[]);
+
+// Ordena os livros por codigo usando Selection Sort
+void ordenarLivrosPorCodigo(Livro livros[], int total);
+
 #endif

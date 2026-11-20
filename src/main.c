@@ -4,6 +4,7 @@
 #include "../include/emprestimos.h"
 #include "../include/persistencia.h"
 #include <stdlib.h>
+#include <string.h>
 
 int main(void) {
     Livro *livros = NULL;
@@ -39,6 +40,7 @@ int capacidadeEmprestimos = 0;
         printf("9 - Listar emprestimos\n");
         printf("10 - Ordenar livros por titulo (Bubble Sort)\n");
         printf("11 - Ordenar livros por ano (Selection Sort)\n");
+        printf("12 - Buscar livro por codigo (Busca Binaria)\n");
         printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
@@ -93,6 +95,35 @@ int capacidadeEmprestimos = 0;
                 printf("\nLivros ordenados por ano com Selection Sort!\n");
                 break;
 
+            case 12: {
+    char codigoBusca[MAX_CODIGO];
+    int indiceEncontrado;
+
+    printf("\n=== BUSCA BINARIA DE LIVRO ===\n");
+    printf("Digite o codigo do livro: ");
+
+    fgets(codigoBusca, MAX_CODIGO, stdin);
+    codigoBusca[strcspn(codigoBusca, "\n")] = '\0';
+
+    // Ordena os livros por codigo antes da busca
+    ordenarLivrosPorCodigo(livros, totalLivros);
+
+    // Realiza a busca binaria
+    indiceEncontrado = buscarLivroBinaria(livros, totalLivros, codigoBusca);
+
+    if (indiceEncontrado != -1) {
+        printf("\nLivro encontrado!\n");
+        printf("Codigo: %s\n", livros[indiceEncontrado].codigo);
+        printf("Titulo: %s\n", livros[indiceEncontrado].titulo);
+        printf("Autor: %s\n", livros[indiceEncontrado].autor);
+        printf("Ano: %d\n", livros[indiceEncontrado].ano);
+        printf("Quantidade disponivel: %d\n", livros[indiceEncontrado].quantidade);
+    } else {
+        printf("\nLivro nao encontrado.\n");
+    }
+
+    break;
+}
             case 0:
             // Salva os dados antes de encerrar o programa
             salvarLivros(livros, totalLivros);

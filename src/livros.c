@@ -211,3 +211,49 @@ void ordenarLivrosSelectionSort(Livro livros[], int total) {
         }
     }
 }
+// Busca um livro pelo codigo usando busca binaria
+int buscarLivroBinaria(const Livro livros[], int total, const char codigo[]) {
+    int inicio = 0;
+    int fim = total - 1;
+
+    while (inicio <= fim) {
+        int meio = inicio + (fim - inicio) / 2;
+        int comparacao = strcmp(livros[meio].codigo, codigo);
+
+        if (comparacao == 0) {
+            return meio;
+        }
+
+        if (comparacao < 0) {
+            inicio = meio + 1;
+        } else {
+            fim = meio - 1;
+        }
+    }
+
+    return -1;
+}
+// Ordena os livros por codigo usando Selection Sort
+void ordenarLivrosPorCodigo(Livro livros[], int total) {
+    int i, j, indiceMenor;
+    Livro temporario;
+
+    // Percorre as posicoes da lista
+    for (i = 0; i < total - 1; i++) {
+        indiceMenor = i;
+
+        // Procura o menor codigo
+        for (j = i + 1; j < total; j++) {
+            if (strcmp(livros[j].codigo, livros[indiceMenor].codigo) < 0) {
+                indiceMenor = j;
+            }
+        }
+
+        // Coloca o livro na posicao correta
+        if (indiceMenor != i) {
+            temporario = livros[i];
+            livros[i] = livros[indiceMenor];
+            livros[indiceMenor] = temporario;
+        }
+    }
+}
