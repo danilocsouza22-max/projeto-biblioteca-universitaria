@@ -7,6 +7,7 @@
 #include "../include/usuarios.h"
 #include "../include/emprestimos.h"
 #include "../include/persistencia.h"
+#include "../include/relatorios.h"
 
 int main(void) {
     Livro *livros = NULL;
@@ -42,6 +43,7 @@ int main(void) {
         printf("11 - Ordenar livros por ano (Selection Sort)\n");
         printf("12 - Buscar livro por codigo (Busca Binaria)\n");
         printf("13 - Historico de emprestimos por usuario\n");
+        printf("14 - Exportar relatorio da biblioteca\n");
         printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
 
@@ -142,6 +144,16 @@ int main(void) {
                     totalEmprestimos,
                     livros,
                     totalLivros
+                );
+                break;
+            case 14:
+                exportarRelatorio(
+                    livros,
+                    totalLivros,
+                    usuarios,
+                    totalUsuarios,
+                    emprestimos,
+                    totalEmprestimos
                 );
                 break;
 
