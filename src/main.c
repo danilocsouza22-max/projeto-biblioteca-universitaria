@@ -1,28 +1,28 @@
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "../include/livros.h"
 #include "../include/usuarios.h"
 #include "../include/emprestimos.h"
 #include "../include/persistencia.h"
-#include <stdlib.h>
-#include <string.h>
 
 int main(void) {
     Livro *livros = NULL;
-
-int capacidadeLivros = 0;
     Usuario *usuarios = NULL;
+    Emprestimo *emprestimos = NULL;
 
-int capacidadeUsuarios = 0;
-   Emprestimo *emprestimos = NULL;
-   
-int capacidadeEmprestimos = 0;
+    int capacidadeLivros = 0;
+    int capacidadeUsuarios = 0;
+    int capacidadeEmprestimos = 0;
 
     int totalLivros = 0;
     int totalUsuarios = 0;
     int totalEmprestimos = 0;
     int opcao;
 
-    // Carrega os dados armazenados nos arquivos ao iniciar o sistema
+    // Carrega os dados armazenados nos arquivos de texto
     carregarLivros(&livros, &totalLivros, &capacidadeLivros);
     carregarUsuarios(&usuarios, &totalUsuarios, &capacidadeUsuarios);
     carregarEmprestimos(&emprestimos, &totalEmprestimos, &capacidadeEmprestimos);
@@ -43,10 +43,11 @@ int capacidadeEmprestimos = 0;
         printf("12 - Buscar livro por codigo (Busca Binaria)\n");
         printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
+
         scanf("%d", &opcao);
         limparBuffer();
 
-        // Executa a funcionalidade escolhida pelo usuário
+        // Executa a funcionalidade escolhida pelo usuario
         switch (opcao) {
             case 1:
                 cadastrarLivro(&livros, &totalLivros, &capacidadeLivros);
@@ -57,7 +58,7 @@ int capacidadeEmprestimos = 0;
                 break;
 
             case 3:
-               cadastrarUsuario(&usuarios, &totalUsuarios, &capacidadeUsuarios);
+                cadastrarUsuario(&usuarios, &totalUsuarios, &capacidadeUsuarios);
                 break;
 
             case 4:
@@ -66,19 +67,26 @@ int capacidadeEmprestimos = 0;
 
             case 5:
                 buscarLivro(livros, totalLivros);
-                break;    
+                break;
 
             case 6:
                 buscarUsuario(usuarios, totalUsuarios);
                 break;
 
             case 7:
-               realizarEmprestimo(livros, totalLivros, usuarios, totalUsuarios,
-                  &emprestimos, &totalEmprestimos, &capacidadeEmprestimos);
+                realizarEmprestimo(
+                    livros, totalLivros,
+                    usuarios, totalUsuarios,
+                    &emprestimos, &totalEmprestimos,
+                    &capacidadeEmprestimos
+                );
                 break;
 
             case 8:
-                devolverLivro(livros, totalLivros, emprestimos, totalEmprestimos);
+                devolverLivro(
+                    livros, totalLivros,
+                    emprestimos, totalEmprestimos
+                );
                 break;
 
             case 9:
@@ -96,42 +104,67 @@ int capacidadeEmprestimos = 0;
                 break;
 
             case 12: {
-    char codigoBusca[MAX_CODIGO];
-    int indiceEncontrado;
+                char codigoBusca[MAX_CODIGO];
+                int indiceEncontrado;
 
-    printf("\n=== BUSCA BINARIA DE LIVRO ===\n");
-    printf("Digite o codigo do livro: ");
+                printf("\n=== BUSCA BINARIA DE LIVRO ===\n");
+                printf("Digite o codigo do livro: ");
 
-    fgets(codigoBusca, MAX_CODIGO, stdin);
-    codigoBusca[strcspn(codigoBusca, "\n")] = '\0';
+                fgets(codigoBusca, MAX_CODIGO, stdin);
+                codigoBusca[strcspn(codigoBusca, "\n")] = '\0';
 
-    // Ordena os livros por codigo antes da busca
-    ordenarLivrosPorCodigo(livros, totalLivros);
+                // Ordena os livros por codigo antes da busca
+                ordenarLivrosPorCodigo(livros, totalLivros);
 
-    // Realiza a busca binaria
-    indiceEncontrado = buscarLivroBinaria(livros, totalLivros, codigoBusca);
+                // Realiza a busca binaria
+                indiceEncontrado = buscarLivroBinaria(
+                    livros, totalLivros, codigoBusca
+                );
 
-    if (indiceEncontrado != -1) {
-        printf("\nLivro encontrado!\n");
-        printf("Codigo: %s\n", livros[indiceEncontrado].codigo);
-        printf("Titulo: %s\n", livros[indiceEncontrado].titulo);
-        printf("Autor: %s\n", livros[indiceEncontrado].autor);
-        printf("Ano: %d\n", livros[indiceEncontrado].ano);
-        printf("Quantidade disponivel: %d\n", livros[indiceEncontrado].quantidade);
-    } else {
-        printf("\nLivro nao encontrado.\n");
-    }
+                if (indiceEncontrado != -1) {
+                    printf("\nLivro encontrado!\n");
+                    printf("Codigo: %s\n", livros[indiceEncontrado].codigo);
+                    printf("Titulo: %s\n", livros[indiceEncontrado].titulo);
+                    printf("Autor: %s\n", livros[indiceEncontrado].autor);
+                    printf("Ano: %d\n", livros[indiceEncontrado].ano);
+                    printf("Quantidade disponivel: %d\n",
+                           livros[indiceEncontrado].quantidade);
+                } else {
+                    printf("\nLivro nao encontrado.\n");
+                }
 
-    break;
-}
-            case 0:
-            // Salva os dados antes de encerrar o programa
-            salvarLivros(livros, totalLivros);
-            salvarUsuarios(usuarios, totalUsuarios);
-            salvarEmprestimos(emprestimos, totalEmprestimos);
-
-            printf("\nPrograma encerrado.\n");
                 break;
+            }
+
+            case 0: {
+                // Salva os dados em arquivos de texto
+                salvarLivros(livros, totalLivros);
+                salvarUsuarios(usuarios, totalUsuarios);
+                salvarEmprestimos(emprestimos, totalEmprestimos);
+
+                // Salva os dados em arquivos binarios
+                int salvouLivros = salvarLivrosBinario(
+                    livros, totalLivros
+                );
+
+                int salvouUsuarios = salvarUsuariosBinario(
+                    usuarios, totalUsuarios
+                );
+
+                int salvouEmprestimos = salvarEmprestimosBinario(
+                    emprestimos, totalEmprestimos
+                );
+
+                // Verifica se os tres salvamentos foram realizados
+                if (salvouLivros && salvouUsuarios && salvouEmprestimos) {
+                    printf("\nDados binarios salvos com sucesso!\n");
+                } else {
+                    printf("\nErro ao salvar algum arquivo binario.\n");
+                }
+
+                printf("\nPrograma encerrado.\n");
+                break;
+            }
 
             default:
                 printf("\nOpcao invalida.\n");
@@ -139,9 +172,10 @@ int capacidadeEmprestimos = 0;
 
     } while (opcao != 0);
 
-free(livros);
-free(usuarios);
-free(emprestimos);
+    // Libera a memoria alocada dinamicamente
+    free(livros);
+    free(usuarios);
+    free(emprestimos);
 
-return 0;
+    return 0;
 }

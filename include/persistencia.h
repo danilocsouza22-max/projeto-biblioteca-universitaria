@@ -23,5 +23,21 @@ void salvarEmprestimos(
     const Emprestimo emprestimos[],
     int totalEmprestimos
 );
+// Salva os dados dos livros em arquivo binario
+int salvarLivrosBinario(const Livro livros[], int totalLivros);
 
+// Carrega os dados dos livros de arquivo binario
+int carregarLivrosBinario(Livro **livros, int *totalLivros, int *capacidade);
+
+// Salva os dados dos usuarios em arquivo binario
+int salvarUsuariosBinario(const Usuario usuarios[], int totalUsuarios);
+
+// Carrega os dados dos usuarios de arquivo binario
+int carregarUsuariosBinario(Usuario **usuarios, int *totalUsuarios, int *capacidade);
+
+// Salva os dados dos emprestimos em arquivo binario
+int salvarEmprestimosBinario(const Emprestimo emprestimos[], int totalEmprestimos);
+
+// Carrega os dados dos emprestimos de arquivo binario
+int carregarEmprestimosBinario(Emprestimo **emprestimos, int *totalEmprestimos, int *capacidade);
 #endif
