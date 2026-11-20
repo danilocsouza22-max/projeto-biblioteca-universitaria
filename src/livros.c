@@ -187,3 +187,27 @@ void ordenarLivrosBubbleSort(Livro livros[], int total) {
         }
     }
 }
+// Ordena os livros por ano de publicacao usando Selection Sort
+void ordenarLivrosSelectionSort(Livro livros[], int total) {
+    int i, j, indiceMenor;
+    Livro temporario;
+
+    // Percorre as posicoes da lista
+    for (i = 0; i < total - 1; i++) {
+        indiceMenor = i;
+
+        // Procura o livro com o menor ano de publicacao
+        for (j = i + 1; j < total; j++) {
+            if (livros[j].ano < livros[indiceMenor].ano) {
+                indiceMenor = j;
+            }
+        }
+
+        // Coloca o livro mais antigo na posicao correta
+        if (indiceMenor != i) {
+            temporario = livros[i];
+            livros[i] = livros[indiceMenor];
+            livros[indiceMenor] = temporario;
+        }
+    }
+}
