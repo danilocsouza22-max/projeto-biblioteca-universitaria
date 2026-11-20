@@ -39,4 +39,11 @@ void listarEmprestimos(
 );
 // Aumenta a capacidade de armazenamento dos emprestimos
 int expandirEmprestimos(Emprestimo **emprestimos, int *capacidade);
+// Exibe o historico de emprestimos de um usuario pela matricula
+void historicoEmprestimosUsuario(
+    const Emprestimo emprestimos[],
+    int totalEmprestimos,
+    const Livro livros[],
+    int totalLivros
+);
 #endif

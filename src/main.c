@@ -41,6 +41,7 @@ int main(void) {
         printf("10 - Ordenar livros por titulo (Bubble Sort)\n");
         printf("11 - Ordenar livros por ano (Selection Sort)\n");
         printf("12 - Buscar livro por codigo (Busca Binaria)\n");
+        printf("13 - Historico de emprestimos por usuario\n");
         printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
 
@@ -135,6 +136,14 @@ int main(void) {
 
                 break;
             }
+            case 13:
+                historicoEmprestimosUsuario(
+                    emprestimos,
+                    totalEmprestimos,
+                    livros,
+                    totalLivros
+                );
+                break;
 
             case 0: {
                 // Salva os dados em arquivos de texto

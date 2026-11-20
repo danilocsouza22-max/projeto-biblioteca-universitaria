@@ -219,3 +219,61 @@ void listarEmprestimos(
                emprestimos[i].ativo ? "Ativo" : "Devolvido");
     }
 }
+
+void historicoEmprestimosUsuario(
+    const Emprestimo emprestimos[],
+    int totalEmprestimos,
+    const Livro livros[],
+    int totalLivros
+) {
+    char matricula[MAX_MATRICULA];
+    int encontrados = 0;
+
+    printf("\n=== HISTORICO DE EMPRESTIMOS POR USUARIO ===\n");
+    printf("Digite a matricula do usuario: ");
+
+    fgets(matricula, MAX_MATRICULA, stdin);
+    matricula[strcspn(matricula, "\n")] = '\0';
+
+    // Verifica se a matricula foi informada
+    if (strlen(matricula) == 0) {
+        printf("Erro: a matricula nao pode estar vazia.\n");
+        return;
+    }
+
+    // Percorre todos os emprestimos registrados
+    for (int i = 0; i < totalEmprestimos; i++) {
+
+        // Verifica se o emprestimo pertence ao usuario
+        if (strcmp(emprestimos[i].matriculaUsuario, matricula) == 0) {
+            encontrados++;
+
+            printf("\nEmprestimo %d\n", encontrados);
+            printf("Codigo do livro: %s\n", emprestimos[i].codigoLivro);
+
+            // Procura o titulo do livro correspondente
+            int indiceLivro = encontrarLivroPorCodigo(
+                livros,
+                totalLivros,
+                emprestimos[i].codigoLivro
+            );
+
+            if (indiceLivro != -1) {
+                printf("Titulo: %s\n", livros[indiceLivro].titulo);
+            } else {
+                printf("Titulo: livro nao encontrado no acervo.\n");
+            }
+
+            // Exibe a situacao do emprestimo
+            printf("Status: %s\n",
+                   emprestimos[i].ativo ? "Ativo" : "Devolvido");
+        }
+    }
+
+    // Informa quando nao existem emprestimos para a matricula
+    if (encontrados == 0) {
+        printf("\nNenhum emprestimo encontrado para esta matricula.\n");
+    } else {
+        printf("\nTotal de emprestimos encontrados: %d\n", encontrados);
+    }
+}
