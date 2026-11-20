@@ -37,6 +37,7 @@ int capacidadeEmprestimos = 0;
         printf("7 - Realizar emprestimo\n");
         printf("8 - Devolver livro\n");
         printf("9 - Listar emprestimos\n");
+        printf("10 - Ordenar livros por titulo (Bubble Sort)\n");
         printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
@@ -79,7 +80,12 @@ int capacidadeEmprestimos = 0;
 
             case 9:
                 listarEmprestimos(emprestimos, totalEmprestimos);
-                break;    
+                break;
+
+            case 10:
+                ordenarLivrosBubbleSort(livros, totalLivros);
+                printf("\nLivros ordenados por titulo com Bubble Sort!\n");
+                break;
 
             case 0:
             // Salva os dados antes de encerrar o programa

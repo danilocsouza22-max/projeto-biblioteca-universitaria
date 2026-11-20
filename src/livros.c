@@ -167,3 +167,23 @@ void buscarLivro(const Livro livros[], int total) {
         printf("Nenhum livro encontrado.\n");
     }
 }
+
+
+// Ordena os livros alfabeticamente pelo titulo usando Bubble Sort
+void ordenarLivrosBubbleSort(Livro livros[], int total) {
+    int i, j;
+    Livro temporario;
+
+    // Percorre a lista de livros
+    for (i = 0; i < total - 1; i++) {
+        // Compara os titulos de livros vizinhos
+        for (j = 0; j < total - i - 1; j++) {
+            if (strcmp(livros[j].titulo, livros[j + 1].titulo) > 0) {
+                // Troca os livros de posicao
+                temporario = livros[j];
+                livros[j] = livros[j + 1];
+                livros[j + 1] = temporario;
+            }
+        }
+    }
+}

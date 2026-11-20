@@ -22,4 +22,7 @@ int encontrarLivroPorCodigo(const Livro livros[], int total, const char codigo[]
 void limparBuffer(void);
 // Aumenta a capacidade de armazenamento dos livros
 int expandirLivros(Livro **livros, int *capacidade);
+
+// Ordena os livros alfabeticamente pelo titulo usando Bubble Sort
+void ordenarLivrosBubbleSort(Livro livros[], int total);
 #endif
